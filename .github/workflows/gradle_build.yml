@@ -1,11 +1,12 @@
-# This workflow will build a Java project with Gradle
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+# This workflow builds Baritone with Gradle
+# Supports push, pull request, and manual dispatch
 
 name: Java CI with Gradle
 
 on:
   push:
   pull_request:
+  workflow_dispatch:  # ✅ Allows manual triggering from the Actions tab
 
 jobs:
   build:
@@ -26,7 +27,7 @@ jobs:
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-      
+
     - name: Build with Gradle
       run: ./gradlew build -Pmod_version="$(git describe --always --tags --first-parent | cut -c2-)"
 
@@ -35,7 +36,7 @@ jobs:
       with:
         name: Artifacts
         path: dist/
-        
+
     - name: Archive mapping.txt
       uses: actions/upload-artifact@v4
       with:
